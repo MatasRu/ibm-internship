@@ -1,13 +1,20 @@
 import http from "../plugins/Fetch";
-import {useState} from "react"
+import {useState, useEffect} from "react"
 
-function Search({setData}) {
+function Search({setData, getIp}) {
 
     const [getSearchInput, setSearchInput] = useState("")
     const [errorMsg, setErrorMsg] = useState("")
 
 
+    function logKeyword() {
+        http.post('http://localhost:3001/logKeyword', {searchInput: getSearchInput, ipaddress: getIp}).then(res => {
+            console.log(res)
+        })
+    }
+
     function getData() {
+        logKeyword()
         if (!/^[a-zA-Z0-9\s]*$/.test(getSearchInput)) {
             return setErrorMsg("You can only use letters and numbers")
         }
